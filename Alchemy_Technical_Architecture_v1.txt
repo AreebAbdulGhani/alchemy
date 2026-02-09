@@ -1,0 +1,47 @@
+[DOCUMENT START]
+
+Project Title: Alchemy: The Multimodal Transmutation Engine
+Document Type: Technical Architecture & System Design
+Author: Areeb Abdul Ghani
+Date: February 10, 2026
+
+1. Executive Summary
+Alchemy is an orchestrated AI microservice designed to run within the Adobe Express add-on environment. Unlike standard generative tools that create assets from scratch, Alchemy acts as a "transmutation layer." It ingests the semantic structure of an existing Express canvas (DOM elements, image layers, text hierarchy) and reconstructs that context into new media formats (Video, HTML/CSS, Audio) using a Multi-Agent System (MAS).
+
+2. The Core Engineering Challenge
+Current "Text-to-Video" or "Design-to-Code" solutions suffer from Context Loss. They treat inputs as flat images, losing the editability and brand constraints of the original design.
+Alchemy solves this by bypassing pixel-based interpretation and utilizing DOM-based Semantic Extraction. We map the "DNA" of the design—font weights, hex codes, z-index layering—and feed this structured JSON into our agentic swarm to ensure high-fidelity output.
+
+3. System Architecture
+The system is architected as an Event-Driven Microservices pattern to handle high-latency AI operations without blocking the Adobe Express UI thread.
+
+[DIAGRAM]
+Box 1 (Left): "Adobe Express Client (React SDK)" -> sends JSON payload -> Box 2
+Box 2 (Middle): "Alchemy Core (Python/FastAPI Orchestrator)" -> splits tasks -> Box 3
+Box 3 (Right): "Agent Swarm" (Contains 3 circles: "Vision Agent", "Script Agent", "Render Agent")
+
+4. The "Agent Swarm" Logic
+Alchemy does not rely on a single large model. It utilizes a chain-of-thought pipeline:
+
+Step 1: The Observer (Vision + DOM Analysis):
+Input: Express Canvas Bitmap + Scraped Metadata.
+Action: Maps the visual hierarchy. Identifies "Hero Image," "Call to Action," and "Brand Palette."
+
+Step 2: The Strategist (LLM Reasoning):
+Action: Determines the transmutation logic. If converting to Video, it scripts motion based on the "mood" of the font and colors. If converting to Code, it maps layout constraints to Tailwind CSS classes.
+
+Step 3: The Fabricator (Generative Output):
+Action: Calls specific specialized APIs (Firefly for image extension, ElevenLabs for neural audio, Replicate for motion interpolation) to generate the final assets.
+
+5. Infrastructure & Scalability
+Given my background in Platform Engineering, Alchemy is built for scale from Day 1:
+Backend: Python FastAPI running on serverless containers (AWS Lambda/Google Cloud Run) to handle burst traffic.
+Queue Management: Redis/Celery task queues to manage long-running video generation tasks asynchronously, notifying the Express add-on via WebSockets when the asset is ready.
+Security: Ephemeral storage for user assets; no design data is trained on or stored permanently.
+
+6. Implementation Roadmap
+Phase 1 (Month 1-2): Core "DOM-to-Prompt" engine and "Design-to-HTML" module.
+Phase 2 (Month 3): Integration of Firefly Image Model for background extension.
+Phase 3 (Month 4): Video "Transmutation" pipeline (Motion physics + Audio sync).
+
+[DOCUMENT END]
